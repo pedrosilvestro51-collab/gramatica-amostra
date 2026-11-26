@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desafio Gramática: amostra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap">
+<style>
+/* VOICE: ficha de treino animada, direta, de atleta para atleta
+   IDEA: planilha de treino (como a do Time Híbrido), só que de gramática: dias = treinos, blocos = séries
+   PICTURE: cabeçalho azul em faixa + sumário escuro com marca-texto lima; cada dia é um cartão de treino
+   COLOUR and TYPE: azul vivo dominante, verde-floresta escuro de apoio, lima como destaque; Anton nos títulos, Inter no texto
+   LAYOUT: coluna única de celular (máx. 760px), cartões empilhados, botões de vídeo grandes */
+:root{color-scheme:light dark;
+--bg:light-dark(#eef4f8,#0b1410);--card:light-dark(#ffffff,#13201a);--ink:light-dark(#10231a,#e8f1ec);--soft:light-dark(#4a5c53,#a9bdb2);
+--blue:#1aa3ef;--blue-d:light-dark(#0b6fb0,#5cc4ff);--forest:light-dark(#0f2a12,#0a1a0d);--lime:#d8f23b;--green:light-dark(#2e9d1f,#7ad65f);--line:light-dark(#dfe7e3,#24342c)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 48px}
+.top{background:var(--blue);color:#fff;padding:18px max(5vw,16px) 20px}
+.top .in{max-width:760px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+.top .t1{font:22px/1.05 Anton,Impact,sans-serif;letter-spacing:.5px}
+.top .t1 b{display:block;font-size:34px;font-weight:400}
+.top .t2{font-weight:800;text-align:right;line-height:1.25}
+.top .t2 small{display:block;font-weight:600;opacity:.9}
+.sum{background:var(--forest);color:#fff;border-radius:22px;margin:18px 0;padding:22px 20px;box-shadow:0 10px 30px -18px #000}
+.sum .mk{display:inline-block;background:var(--lime);color:#0f2a12;font:28px/1.1 Anton,Impact,sans-serif;padding:2px 10px;margin:4px 0}
+.sum h1{font:44px/1 Anton,Impact,sans-serif;margin:2px 0 6px;font-weight:400}
+.sum .hint{color:var(--lime);font-weight:700;margin:6px 0 10px}
+.sum nav a{display:flex;gap:8px;align-items:baseline;color:#fff;text-decoration:none;font:19px/1.2 Anton,Impact,sans-serif;letter-spacing:.3px;padding:9px 0;min-height:44px}
+.sum nav a .dots{flex:1;border-bottom:2px dotted #ffffff66;transform:translateY(-4px)}
+.sum nav a:hover,.sum nav a:focus-visible{color:var(--lime);outline:none}
+.sum nav a .k{color:var(--lime)}
+.card{background:var(--card);border-radius:22px;padding:20px 18px;margin:18px 0;box-shadow:0 8px 26px -20px #0008}
+.card h2{font:26px/1.1 Anton,Impact,sans-serif;font-weight:400;margin:0 0 8px;color:var(--blue-d)}
+.prose{font-size:16px}
+.prose h3{font:21px/1.15 Anton,Impact,sans-serif;font-weight:400;color:var(--blue-d);margin:22px 0 8px;letter-spacing:.2px}
+.prose h4{font-size:16px;margin:16px 0 6px}
+.prose p,.prose li{margin:6px 0}.prose ul,.prose ol{padding-left:22px}
+.prose blockquote{margin:10px 0;padding:8px 14px;border-left:4px solid var(--lime);background:light-dark(#f5fbe0,#1b2a13);border-radius:0 10px 10px 0}
+.scroll{overflow-x:auto;margin:10px 0;border-radius:12px;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 10px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:light-dark(#e6f4fd,#16303f);font-weight:700}
+tr:last-child td{border-bottom:0}
+.day{background:var(--card);border-radius:22px;margin:22px 0;overflow:hidden;box-shadow:0 10px 30px -22px #000a}
+.dhead{background:var(--blue);color:#fff;padding:18px 18px 16px;text-align:center}
+.dhead .dn{display:inline-block;background:var(--lime);color:#0f2a12;font:18px/1 Anton,Impact,sans-serif;padding:6px 12px;border-radius:999px;letter-spacing:.5px}
+.dhead h2{font:34px/1.05 Anton,Impact,sans-serif;font-weight:400;margin:10px 0 4px;text-wrap:balance}
+.dhead .cap{margin:0;font-weight:800;letter-spacing:.3px}
+.where{display:flex;gap:12px;align-items:flex-start;padding:16px 18px 6px;color:var(--soft)}
+.where svg{width:26px;height:26px;flex:none;color:var(--blue-d);margin-top:2px}
+.where p{margin:0}.where b{color:var(--ink)}
+.sasrow{padding:8px 18px 0;display:flex}
+.blocos{list-style:none;margin:8px 0 0;padding:0 18px}
+.bloco{padding:16px 0;border-bottom:1px solid var(--line);text-align:center}
+.bloco h4{margin:0 0 6px;font:20px/1.1 Anton,Impact,sans-serif;font-weight:400;color:light-dark(#0f2a12,#d8f23b);letter-spacing:.4px}
+.bloco p{margin:0 auto 12px;max-width:560px}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:6px;border:2.5px solid var(--ink);border-radius:999px;padding:6px 14px;font-weight:800;white-space:nowrap;min-height:44px}
+.pill svg{width:22px;height:22px}
+.vid{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--green);border:2.5px solid var(--green);border-radius:16px;padding:7px 14px 7px 10px;min-height:48px;text-align:left;background:light-dark(#f4fbef,#132412);max-width:100%}
+.vid svg{width:30px;height:30px;flex:none;color:#e52d27}
+.vid b{display:block;font-size:14px;line-height:1.2;color:light-dark(#1e6d12,#9be381);text-transform:uppercase;letter-spacing:.2px}
+.vid small{display:block;font-size:13px;text-decoration:underline;color:var(--green)}
+.vid:hover,.vid:focus-visible{background:light-dark(#e3f6d7,#1b3418);outline:none;transform:translateY(-1px)}
+.vid.sas{color:var(--blue-d);border-color:var(--blue-d);background:light-dark(#eaf6fe,#11263a)}
+.vid.sas svg{color:var(--blue-d)}.vid.sas b{color:var(--blue-d)}.vid.sas small{color:var(--blue-d)}
+.sasrow .vid{width:100%}
+.pausa{margin:10px 0;padding:10px 14px;text-align:center;font-weight:700;color:var(--soft);background:light-dark(#f1f5f3,#18251f);border-radius:12px}
+.ex{margin:14px 18px;border:2px solid var(--line);border-radius:16px;overflow:hidden}
+.ex:last-child{margin-bottom:18px}
+.ex summary{cursor:pointer;list-style:none;padding:14px 16px;font:20px/1.15 Anton,Impact,sans-serif;font-weight:400;letter-spacing:.3px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;min-height:48px}
+.ex summary::-webkit-details-marker{display:none}
+.ex summary::before{content:"+";display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--lime);color:#0f2a12;font:22px/1 Inter,sans-serif;font-weight:800}
+.ex[open] summary::before{content:"–"}
+.ex summary small{font:13px/1.3 Inter,sans-serif;color:var(--soft);font-weight:600}
+.ex .prose{padding:0 16px 14px}
+.note{margin:14px 18px 0;padding:12px 14px;border-radius:12px;background:light-dark(#fffbe0,#26250f)}
+.lead{margin:0;color:var(--soft)}
+.go{display:flex;align-items:center;gap:12px;justify-content:space-between;width:100%;text-decoration:none;background:var(--lime);color:#0f2a12;border-radius:16px;padding:10px 16px;min-height:52px;text-align:left;font-weight:700}
+.go b{display:block;font-size:15px;text-transform:uppercase;letter-spacing:.2px}.go small{display:block;font-size:13px;font-weight:600;opacity:.8}
+.go i{font-style:normal;font-size:24px;font-weight:800}.go:hover,.go:focus-visible{filter:brightness(.95);outline:2px solid var(--forest);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.chip{font:700 15px Inter,sans-serif;border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:8px 14px;min-height:44px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--forest);border-color:var(--forest);color:var(--lime)}
+.chip:focus-visible,.btn:focus-visible,.opt:focus-visible,.fc:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.fc{position:relative;height:230px;perspective:1000px;cursor:pointer;border-radius:20px}
+.face{position:absolute;inset:0;border-radius:20px;padding:22px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;backface-visibility:hidden;transition:transform .45s}
+.face small{position:absolute;top:12px;left:0;right:0;font-weight:700;font-size:13px;opacity:.75}
+.face p{margin:0;font:600 21px/1.35 Inter,sans-serif;text-wrap:balance}
+.front{background:var(--forest);color:#fff}.back{background:var(--blue);color:#fff;transform:rotateY(180deg)}
+.fc.flip .front{transform:rotateY(180deg)}.fc.flip .back{transform:rotateY(360deg)}
+@media(prefers-reduced-motion:reduce){.face{transition:none}}
+.fcbar{display:flex;justify-content:space-between;align-items:center;margin:10px 0;color:var(--soft);font-weight:600}
+.fcact{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{font:800 15px Inter,sans-serif;border:0;border-radius:14px;padding:10px 16px;min-height:48px;background:var(--forest);color:var(--lime);cursor:pointer}
+.btn.no{background:#e4572e;color:#fff}.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}.btn.sm{min-height:44px;padding:6px 12px;font-size:14px}
+.tip{color:var(--soft);font-size:14px;margin:12px 0 0}
+.exhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px;border-bottom:2px solid var(--line);padding-bottom:8px}
+.exhead h3{font:22px/1.1 Anton,Impact,sans-serif;font-weight:400;margin:0;color:var(--blue-d)}#ex-score{font-weight:700;color:var(--soft);font-size:14px}
+.q{padding:16px 0;border-bottom:1px solid var(--line)}.q h3{font:18px/1 Anton,Impact,sans-serif;font-weight:400;margin:0 0 6px;color:light-dark(#0f2a12,#d8f23b)}.q p{margin:0 0 10px}
+.opts{display:grid;gap:8px}
+.opt{font:500 15px/1.35 Inter,sans-serif;text-align:left;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 12px;min-height:44px;cursor:pointer}
+.opt.sm{min-width:48px;text-align:center;font-weight:800}
+.opt.sel{border-color:var(--blue);background:light-dark(#e6f4fd,#16303f)}
+.opt.right,select.right{border-color:#2e9d1f;background:light-dark(#e3f6d7,#1b3418)}.opt.wrong,select.wrong{border-color:#e4572e;background:light-dark(#fde6df,#3a1d14)}
+.opt:disabled{cursor:default;opacity:1;color:var(--ink)}
+.vf{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px dashed var(--line)}
+.vfb{display:flex;gap:6px;flex:none}
+select{font:16px Inter,sans-serif;border:2px solid var(--line);border-radius:10px;padding:8px;min-height:44px;background:var(--card);color:var(--ink);max-width:48%;flex:none}
+textarea{width:100%;font:16px/1.4 Inter,sans-serif;border:2px solid var(--line);border-radius:12px;padding:10px;background:var(--card);color:var(--ink);margin-bottom:8px}
+.check,.reveal{margin-top:10px}
+.fb{margin-top:10px;padding:10px 12px;border-radius:12px;background:light-dark(#f1f5f3,#18251f)}.fb.good{background:light-dark(#e3f6d7,#1b3418)}.fb.bad{background:light-dark(#fde6df,#3a1d14)}
+.self{margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row .go{max-width:420px}
+@media(max-width:600px){.vf{flex-direction:column;align-items:stretch}select{max-width:100%}}
+.mini{margin:12px auto 0;max-width:560px;border:2px dashed var(--line);border-radius:14px;text-align:left}
+.mini summary{cursor:pointer;list-style:none;padding:10px 14px;font-weight:800;display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;min-height:44px}
+.mini summary::-webkit-details-marker{display:none}
+.mini summary::before{content:"?";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800}
+.mini summary small{font-weight:600;color:var(--soft);font-size:13px}
+.miniq{padding:0 14px 12px}.mq{padding:8px 0;border-top:1px dashed var(--line)}.mq p{margin:4px 0 8px}
+.mscore{font-weight:800;margin:8px 0 0;color:var(--blue-d)}
+.chip.off{display:inline-flex;align-items:center;opacity:.6;cursor:default;border-style:dashed}
+.locked .dhead{background:#5a6b63}.have{margin:4px 18px 0 56px;padding:0}.have li{margin:4px 0}
+.blur{margin:12px 18px 0;padding:14px;border-radius:14px;background:light-dark(#f1f5f3,#18251f);filter:blur(3px);display:grid;gap:10px}
+.blur .bar{display:block;height:12px;border-radius:6px;background:light-dark(#c9d6cf,#2f4038)}
+.lockbox{display:flex;gap:10px;align-items:center;margin:12px 18px 18px;padding:12px 14px;border-radius:14px;background:var(--forest);color:#fff}
+.prose .lockbox{margin:14px 0 4px}
+.lockbox svg{width:24px;height:24px;flex:none;color:var(--lime)}.lockbox p{margin:0}
+.where svg{color:var(--blue-d)}
+.have2 p{margin:8px 0;font:19px/1.2 Anton,Impact,sans-serif;letter-spacing:.3px;padding-left:22px;position:relative}
+.have2 p::before{content:"";position:absolute;left:0;top:5px;width:12px;height:12px;border-radius:50%;background:var(--lime)}
+.blur.tbl{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.blur .cell{display:block;height:34px;border-radius:6px;background:light-dark(#c9d6cf,#2f4038)}
+.bloco .blur{margin:0 auto 12px;max-width:560px}.prose .blur{margin:12px 0}
+.lockbox.sm{margin:12px auto 0;max-width:560px;font-size:14px;padding:10px 12px}
+.lockvid{cursor:pointer;font:inherit;opacity:.9}.lockvid svg{color:#8a958f!important}
+.modal{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:20px;z-index:10}.modal[hidden]{display:none}
+.mbox{background:var(--card);color:var(--ink);border-radius:20px;padding:22px;max-width:380px;width:100%;text-align:center;display:grid;gap:12px;justify-items:center}
+.mbox>svg{width:40px;height:40px;color:var(--forest)}.mbox h3{margin:0;font:26px/1.1 Anton,Impact,sans-serif;font-weight:400}.mbox p{margin:0}.mbox .go,.mbox .btn{width:100%}
+.foot{color:var(--soft);font-size:14px;text-align:center;margin-top:24px}
+.foot b{color:var(--ink)}
+@media(max-width:600px){.top .t2{text-align:left}.dhead h2{font-size:30px}.sum h1{font-size:38px}table{font-size:13px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+<div class="t1">Amostra grátis<b>Gramática 5 dias</b></div>
+<div class="t2">Português · 8º ano<small>Caps. 13, 14, 15 e 16 · até 1h30 por dia</small></div>
+</div></header>
+<main class="wrap">
+<section class="sum">
+<div>Não se perca! Aqui está o seu</div>
+<span class="mk">Sumário de estudo</span>
+<h1>5 dias</h1>
+<p class="hint">Toque para ir direto ao dia</p>
+<nav>
+<a href="#como">Como usar o plano<span class="dots"></span><span class="k">início</span></a>
+<a href="#treino">Flashcards e exercícios<span class="dots"></span><span class="k">treino</span></a>
+<a href="#dia-1">Dia 1 · Base + substantivas<span class="dots"></span><span class="k">cap. 13</span></a>
+<a href="#dia-2">Dia 2 · Adjetivas<span class="dots"></span><span class="k">cap. 14</span></a>
+<a href="#dia-3">Dia 3 · Adverbiais<span class="dots"></span><span class="k">cap. 15</span></a>
+<a href="#dia-4">Dia 4 · Coerência e coesão<span class="dots"></span><span class="k">cap. 16</span></a>
+<a href="#dia-5">Dia 5 · Simulado + véspera<span class="dots"></span><span class="k">tudo</span></a>
+<a href="#completa">Versão completa<span class="dots"></span><span class="k">ver</span></a>
+</nav>
+</section>
+<section class="card" id="como">
+<h2>Como funciona cada dia</h2>
+<div class="prose">
+<p>Cada dia é um <b>treino</b> com blocos, igual a uma planilha de academia. Em cada bloco você vê <b>o que fazer</b>, <b>quanto tempo</b> leva e um botão de <b>vídeo explicativo</b>. Depois do vídeo, abra o <b>Teste rápido do bloco</b> (3 perguntas) para ver se entendeu. A <b>explicação completa</b> do assunto e os <b>flashcards</b> ficam no fim de cada dia: toque para abrir.</p>
+<p>Os vídeos do <b>SAS</b> abrem no portal: entre com a sua conta e vá em Livro 3 → o capítulo do dia → <b>Vídeo</b>. Os do YouTube são, quase todos, do <b>Professor Noslen</b>.</p>
+</div>
+<details class="ex" style="margin:14px 0 0"><summary>Como estudar <small>leia em 2 minutos</small></summary><div class="prose"><p><strong>1. Teste-se em vez de reler.</strong> Uma grande revisão de pesquisas avaliou 10 técnicas de estudo. <strong>Fazer testes</strong> e <strong>espaçar o estudo</strong> ficaram no topo. <strong>Reler e grifar</strong> ficaram entre as menos úteis (<a href="https://www.aft.org/ae/fall2013/dunlosky">Dunlosky, American Educator</a>). Reler dá a <em>sensação</em> de que você sabe, sem fazer você lembrar mais depois (<a href="https://pubmed.ncbi.nlm.nih.gov/16507066/">PubMed</a>).</p>
+<p><strong>2. Use flashcards do jeito certo.</strong> Escreva ou fale a resposta <strong>antes</strong> de virar a carta. Acertou: tire a carta do monte. Errou: ela vai para o fim. No dia seguinte, repita (<a href="https://www.aft.org/ae/fall2013/dunlosky">Dunlosky</a>). Pode ser papel, Quizlet ou Anki.</p>
+<p><strong>3. Volte ao mesmo tema em dias diferentes.</strong> Estudar tudo de uma vez faz você "aprender rápido e esquecer rápido" (<a href="https://www.aft.org/ae/fall2013/dunlosky">Dunlosky</a>). Por isso cada tema aparece de novo nos dias seguintes.</p>
+<p><strong>4. Primeiro um tema por vez, depois misturar.</strong> Misturar tipos de exercício ajuda muito em várias matérias. Mas, para regras bem específicas (como as de vírgula), misturar logo de cara não ajudou (<a href="https://www.aft.org/ae/fall2013/dunlosky">Dunlosky</a>). Então: aprenda cada tema separado (Dias 1 a 3) e misture no simulado (Dia 4).</p>
+<p><strong>5. Blocos de 25 a 40 min, com pausas de 5 a 10 min.</strong> O Pomodoro (25 + 5) é só um jeito de organizar. Um estudo não achou vantagem dele sobre fazer pausas quando você sente que precisa (<a href="https://www.mdpi.com/2076-328X/15/7/861">Behavioral Sciences, 2025</a>). Na pausa: água, alongar, lanche. <strong>Celular longe</strong> durante o bloco.</p>
+<p><strong>6. Durma de 8 a 10 horas.</strong> É o que a Sociedade Brasileira de Pediatria recomenda para quem tem de 13 a 18 anos. Dormir pouco piora a concentração e as notas (<a href="https://www.sbp.com.br/pediatria-para-familias/cuidados-com-a-saude/privacao-de-sono-na-populacao-pediatrica/">SBP</a>). Alunos que estudaram mais <strong>cortando o sono</strong> foram pior no dia seguinte (<a href="https://www.uclahealth.org/news/release/cramming-for-a-test-dont-do-it-say-ucla-researchers">UCLA Health</a>). <strong>Nada de virar a noite.</strong></p>
+<blockquote>
+<p><strong>Material:</strong> livro (os quadros "Recapitulando" das p. 112 e p. 141 e a parte de coesão do cap. 16), caderno, 20 a 30 cartões e este plano.</p>
+</blockquote></div></details>
+</section>
+<section class="card" id="treino">
+<h2>Área de treino</h2>
+<p class="lead">Nesta amostra: 3 flashcards e 2 questões do Dia 1. Estude direto aqui: flashcards para virar e exercícios com correção na hora. Os botões verdes-limão dentro de cada dia trazem você para cá já no monte certo.</p>
+</section>
+<section class="card" id="flashcards">
+<h2>Flashcards</h2>
+<div class="chips" role="group" aria-label="Escolha o monte">
+<button class="chip" data-deck="1">Dia 1 · amostra</button><span class="chip off">Dias 2 a 4 na versão completa</span>
+</div>
+<div id="fc-card" class="fc" tabindex="0" role="button" aria-label="Toque para virar o card">
+<div class="face front"><small>Pergunta · toque para virar</small><p id="fc-front"></p></div>
+<div class="face back"><small>Resposta</small><p id="fc-back"></p></div>
+</div>
+<div class="fcbar"><span id="fc-prog"></span><button class="btn sm ghost" id="fc-shuffle">Embaralhar</button></div>
+<div id="fc-act" class="fcact" hidden><button class="btn no" id="fc-no">Errei</button><button class="btn" id="fc-ok">Acertei</button></div>
+<p class="tip">Tente responder em voz alta <b>antes</b> de virar. Errou? O card volta para o fim do monte e fica salvo em "Os que errei".</p>
+</section>
+<section class="card" id="exercicios">
+<h2>Exercícios</h2>
+<div class="chips" role="group" aria-label="Escolha os exercícios">
+<button class="chip" data-day="1">Dia 1 · amostra</button><span class="chip off">Mais 30 questões na versão completa</span>
+</div>
+<div class="exhead"><h3 id="ex-title"></h3><span id="ex-score"></span></div>
+<div id="ex-list"></div>
+</section>
+<section class="day" id="dia-1">
+<header class="dhead"><span class="dn">Dia 1 · amostra grátis</span><h2>Base + orações substantivas</h2><p class="cap">Capítulo 13</p></header>
+<div class="where"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 6v14" stroke="currentColor" stroke-width="2"/></svg><p>Livro: cap. 13 "Como surge uma lei", seção <b>Linguagem em foco</b> (p. 70). Predicativas nas <b>p. 71–72</b>, completivas nominais na <b>p. 73</b>, depois apositivas e pontuação. Resumo no quadro <b>Recapitulando, p. 80</b>, com os Exercícios de fixação logo depois.</p></div>
+<div class="sasrow"><button type="button" class="vid sas lockvid"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg><span><b>Vídeo do SAS: cap. 13</b><small>Vídeo da versão completa</small></span></button></div>
+<ol class="blocos"><li class="bloco"><h4>Bloco 01 · Aquecimento</h4><p><b>Base: oração e período.</b> Veja o vídeo e leia a primeira parte da explicação. Treino: em 3 frases do livro, conte os verbos e diga se o período é simples ou composto.</p><div class="row"><span class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 9v4l3 2M9 2h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>15 min</span><button type="button" class="vid lockvid"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg><span><b>Período simples e composto</b><small>Vídeo da versão completa</small></span></button></div><details class="mini"><summary>Teste rápido do bloco <small>3 perguntas depois do vídeo</small></summary><div class="miniq" data-k="base"></div></details></li><li class="bloco"><h4>Bloco 02 · Teoria</h4><div class="blur" aria-hidden="true"><span class="bar" style="width:90%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:80%"></span></div><div class="row"><span class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 9v4l3 2M9 2h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>25 min</span><button type="button" class="vid lockvid"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg><span><b>Orações subordinadas substantivas</b><small>Vídeo da versão completa</small></span></button></div><div class="lockbox sm"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p>Teste rápido do bloco na versão completa</p></div></li><li class="pausa">Pausa de 5 min: água, alongar, celular continua longe</li><li class="bloco"><h4>Bloco 03 · Prática</h4><div class="blur" aria-hidden="true"><span class="bar" style="width:90%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:80%"></span></div><div class="row"><span class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 9v4l3 2M9 2h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>30 min</span><button type="button" class="vid lockvid"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg><span><b>Exercícios de orações substantivas</b><small>Vídeo da versão completa</small></span></button></div><div class="lockbox sm"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p>Teste rápido do bloco na versão completa</p></div></li><li class="bloco"><h4>Bloco 04 · Autoteste</h4><div class="blur" aria-hidden="true"><span class="bar" style="width:90%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:80%"></span></div><div class="row"><span class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 9v4l3 2M9 2h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>15 min</span><a class="go" href="#flashcards-dia-1"><span><b>Flashcards do Dia 1</b><small>aqui no site</small></span><i aria-hidden="true">→</i></a></div></li></ol>
+<details class="ex" open><summary>Explicação do assunto <small>amostra</small></summary><div class="prose"><h3>Agora, o que é oração substantiva</h3>
+<p>A <strong>oração subordinada substantiva</strong> funciona como um <strong>substantivo</strong>: ocupa o lugar de sujeito, objeto, predicativo, complemento nominal ou aposto da oração principal. Ela costuma começar com uma <strong>conjunção integrante</strong>: <strong>que</strong> ou <strong>se</strong>.</p><div class="blur" aria-hidden="true"><span class="bar" style="width:92%"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:85%"></span><span class="bar" style="width:60%"></span><span class="bar" style="width:88%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:95%"></span><span class="bar" style="width:66%"></span></div><div class="blur tbl" aria-hidden="true"><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span></div><div class="blur" aria-hidden="true"><span class="bar" style="width:92%"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:85%"></span><span class="bar" style="width:60%"></span><span class="bar" style="width:88%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:95%"></span><span class="bar" style="width:66%"></span><span class="bar" style="width:80%"></span><span class="bar" style="width:72%"></span></div><div class="lockbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p><b>Explicação completa na versão completa:</b> as 3 substantivas, macetes, desenvolvida x reduzida, vírgula e dois-pontos e as pegadinhas que mais caem.</p></div></div></details>
+</section><section class="day locked" id="dia-2"><header class="dhead"><span class="dn">Dia 2</span><h2>Orações adjetivas</h2><p class="cap">Capítulo 14</p></header>
+<div class="where"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p><b>O que tem neste dia:</b></p></div><ul class="have"><li>Pronomes relativos: que, o qual, cujo, onde, quem</li><li>Restritiva x explicativa e o uso da vírgula</li><li>Vídeos do Prof. Noslen + testes rápidos</li><li>Exercícios com correção na hora</li></ul>
+<div class="blur" aria-hidden="true"><span class="bar" style="width:92%"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:85%"></span><span class="bar" style="width:60%"></span><span class="bar" style="width:88%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:95%"></span><span class="bar" style="width:66%"></span><span class="bar" style="width:80%"></span><span class="bar" style="width:72%"></span><span class="bar" style="width:90%"></span><span class="bar" style="width:58%"></span><span class="bar" style="width:84%"></span><span class="bar" style="width:76%"></span></div><div class="blur tbl" aria-hidden="true"><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span></div><div class="blur" aria-hidden="true"><span class="bar" style="width:92%"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:85%"></span><span class="bar" style="width:60%"></span><span class="bar" style="width:88%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:95%"></span><span class="bar" style="width:66%"></span><span class="bar" style="width:80%"></span><span class="bar" style="width:72%"></span><span class="bar" style="width:90%"></span><span class="bar" style="width:58%"></span><span class="bar" style="width:84%"></span><span class="bar" style="width:76%"></span></div>
+<div class="lockbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p><b>Disponível na versão completa.</b></p></div></section><section class="day locked" id="dia-3"><header class="dhead"><span class="dn">Dia 3</span><h2>Orações adverbiais</h2><p class="cap">Capítulo 15</p></header>
+<div class="where"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p><b>O que tem neste dia:</b></p></div><ul class="have"><li>Os 9 tipos com conectivos e macete para decorar</li><li>Desenvolvida x reduzida e os 3 sentidos de "como"</li><li>Vírgula conforme a posição da oração</li><li>Vídeos + testes rápidos + exercícios</li></ul>
+<div class="blur" aria-hidden="true"><span class="bar" style="width:92%"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:85%"></span><span class="bar" style="width:60%"></span><span class="bar" style="width:88%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:95%"></span><span class="bar" style="width:66%"></span><span class="bar" style="width:80%"></span><span class="bar" style="width:72%"></span><span class="bar" style="width:90%"></span><span class="bar" style="width:58%"></span><span class="bar" style="width:84%"></span><span class="bar" style="width:76%"></span></div><div class="blur tbl" aria-hidden="true"><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span></div><div class="blur" aria-hidden="true"><span class="bar" style="width:92%"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:85%"></span><span class="bar" style="width:60%"></span><span class="bar" style="width:88%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:95%"></span><span class="bar" style="width:66%"></span><span class="bar" style="width:80%"></span><span class="bar" style="width:72%"></span><span class="bar" style="width:90%"></span><span class="bar" style="width:58%"></span><span class="bar" style="width:84%"></span><span class="bar" style="width:76%"></span></div>
+<div class="lockbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p><b>Disponível na versão completa.</b></p></div></section><section class="day locked" id="dia-4"><header class="dhead"><span class="dn">Dia 4</span><h2>Coerência e coesão</h2><p class="cap">Capítulo 16</p></header>
+<div class="where"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p><b>O que tem neste dia:</b></p></div><ul class="have"><li>Os 6 tipos de coerência</li><li>Coesão sequencial, referencial e lexical</li><li>A ponte que liga os 4 capítulos</li><li>Vídeos + testes rápidos + exercícios</li></ul>
+<div class="blur" aria-hidden="true"><span class="bar" style="width:92%"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:85%"></span><span class="bar" style="width:60%"></span><span class="bar" style="width:88%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:95%"></span><span class="bar" style="width:66%"></span><span class="bar" style="width:80%"></span><span class="bar" style="width:72%"></span><span class="bar" style="width:90%"></span><span class="bar" style="width:58%"></span><span class="bar" style="width:84%"></span><span class="bar" style="width:76%"></span></div><div class="blur tbl" aria-hidden="true"><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span></div><div class="blur" aria-hidden="true"><span class="bar" style="width:92%"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:85%"></span><span class="bar" style="width:60%"></span><span class="bar" style="width:88%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:95%"></span><span class="bar" style="width:66%"></span><span class="bar" style="width:80%"></span><span class="bar" style="width:72%"></span><span class="bar" style="width:90%"></span><span class="bar" style="width:58%"></span><span class="bar" style="width:84%"></span><span class="bar" style="width:76%"></span></div>
+<div class="lockbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p><b>Disponível na versão completa.</b></p></div></section><section class="day locked" id="dia-5"><header class="dhead"><span class="dn">Dia 5</span><h2>Simulado + véspera</h2><p class="cap">Capítulo 13 a 16</p></header>
+<div class="where"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p><b>O que tem neste dia:</b></p></div><ul class="have"><li>Simulado com 33 questões e correção comentada</li><li>Revisão dos flashcards que você errou</li><li>Estratégia para a hora da prova</li></ul>
+<div class="blur" aria-hidden="true"><span class="bar" style="width:92%"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:85%"></span><span class="bar" style="width:60%"></span><span class="bar" style="width:88%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:95%"></span><span class="bar" style="width:66%"></span><span class="bar" style="width:80%"></span><span class="bar" style="width:72%"></span><span class="bar" style="width:90%"></span><span class="bar" style="width:58%"></span><span class="bar" style="width:84%"></span><span class="bar" style="width:76%"></span></div><div class="blur tbl" aria-hidden="true"><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span></div><div class="blur" aria-hidden="true"><span class="bar" style="width:92%"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:85%"></span><span class="bar" style="width:60%"></span><span class="bar" style="width:88%"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:95%"></span><span class="bar" style="width:66%"></span><span class="bar" style="width:80%"></span><span class="bar" style="width:72%"></span><span class="bar" style="width:90%"></span><span class="bar" style="width:58%"></span><span class="bar" style="width:84%"></span><span class="bar" style="width:76%"></span></div>
+<div class="lockbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><p><b>Disponível na versão completa.</b></p></div></section><section class="sum" id="completa"><span class="mk">Versão completa</span><h1>Gabarite a prova</h1>
+<nav class="have2"><p>5 dias de estudo, até 1h30 por dia</p><p>Capítulos 13, 14, 15 e 16</p><p>Explicação completa de cada assunto</p><p>35 flashcards para virar</p><p>33 questões com correção na hora</p><p>10 testes rápidos depois dos vídeos</p></nav>
+<p class="hint">Gostou da amostra? Peça o link da versão completa para quem te enviou esta demonstração.</p></section><div id="lockmodal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="lm-t"><div class="mbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg><h3 id="lm-t">Vídeo bloqueado</h3><p>Para ter acesso aos vídeos, compre a <b>versão completa</b>.</p><a class="go" href="#completa" id="lm-go"><span><b>Ver a versão completa</b><small>tudo o que vem nela</small></span><i aria-hidden="true">→</i></a><button type="button" class="btn ghost" id="lm-x">Fechar</button></div></div>
+<p class="foot">Esta é uma amostra. A versão completa tem os 5 dias liberados.</p>
+</main>
+<script>
+{
+const CARDS=[
+[1,"Oração substantiva funciona como o quê?","Como um substantivo. Macete: troque a oração inteira por \"isso\"."],
+[1,"Quais são as conjunções integrantes?","que e se"],
+[1,"Predicativa vem depois de quê?","De um verbo de ligação na principal: \"O necessário é que...\""]
+];
+const ADV=["temporal","causal","condicional","proporcional","final","concessiva","consecutiva","comparativa","conformativa"];
+const Q=[
+{d:1,t:"mc",q:"\"O fundamental é <b>que as empresas adotem medidas adequadas</b> para o transporte de animais.\" A oração destacada exerce a função de:",o:["complemento nominal","predicativo do sujeito","aposto","objeto direto"],a:1,e:"Vem depois do verbo de ligação \"é\" e a principal tem sujeito (\"O fundamental\"): <b>predicativa</b> (exercício de fixação do livro)."},
+{d:1,t:"mc",q:"\"Existe a exigência <b>de que as empresas adotem procedimentos adequados</b>.\" A oração destacada é substantiva:",o:["subjetiva","completiva nominal","apositiva","predicativa"],a:1,e:"Completa o nome \"exigência\" (exigência de quê?) e vem com preposição: <b>completiva nominal</b> (exemplo do livro)."}
+];
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+/* ---------- Flashcards ---------- */
+let deck=[],fi=0,flipped=false,curDeck="1",ok=0;
+const fcEl=$("#fc-card"),fcF=$("#fc-front"),fcB=$("#fc-back"),fcP=$("#fc-prog");
+function setDeck(n){
+  curDeck=String(n);
+  document.querySelectorAll('#flashcards .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.deck===curDeck));
+  let ids=CARDS.map((c,i)=>i).filter(i=>curDeck==="all"||String(CARDS[i][0])===curDeck);
+  if(curDeck==="erros"){ids=store.get("fc-erros",[]);}
+  deck=ids.slice();fi=0;ok=0;showCard();
+}
+function showCard(){
+  flipped=false;fcEl.classList.remove("flip");
+  if(!deck.length){fcF.innerHTML=curDeck==="erros"?"Nenhum card no monte de erros. Mandou bem!":"Sem cards aqui.";fcB.textContent="";fcP.textContent="";$("#fc-act").hidden=true;return}
+  if(fi>=deck.length){fcF.innerHTML=`<b>Fim do monte!</b><br>Você acertou ${ok} de primeira.<br><small>Toque em outro monte ou repita este.</small>`;fcB.textContent="";fcP.textContent="";$("#fc-act").hidden=true;return}
+  const c=CARDS[deck[fi]];fcF.textContent=c[1];fcB.textContent=c[2];
+  fcP.textContent=`Card ${fi+1} de ${deck.length}`;$("#fc-act").hidden=true;
+}
+function flip(){if(!deck.length||fi>=deck.length)return;flipped=!flipped;fcEl.classList.toggle("flip",flipped);$("#fc-act").hidden=!flipped}
+fcEl.addEventListener("click",flip);
+fcEl.addEventListener("keydown",e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();flip()}});
+function mark(right){
+  const id=deck[fi];let er=store.get("fc-erros",[]);
+  if(right){ok++;er=er.filter(x=>x!==id)}else{if(!er.includes(id))er.push(id);deck.push(id)}
+  store.set("fc-erros",er);fi++;showCard();
+}
+$("#fc-ok").addEventListener("click",()=>mark(true));
+$("#fc-no").addEventListener("click",()=>mark(false));
+$("#fc-shuffle").addEventListener("click",()=>{for(let i=deck.length-1;i>fi;i--){const j=fi+Math.floor(Math.random()*(i-fi+1));[deck[i],deck[j]]=[deck[j],deck[i]]}showCard()});
+document.querySelectorAll('#flashcards .chip').forEach(c=>c.addEventListener("click",()=>setDeck(c.dataset.deck)));
+/* ---------- Exercícios ---------- */
+let qset=[],score={};
+function render(day){
+  document.querySelectorAll('#exercicios .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.day===String(day)));
+  qset=Q.map((q,i)=>i).filter(i=>day==="all"||String(Q[i].d)===String(day));
+  score={};
+  $("#ex-title").textContent=day==="all"?"Simulado":(day==="5"?"Questões que misturam tudo":`Exercícios do Dia ${day}`);
+  $("#ex-list").innerHTML=qset.map((i,k)=>{
+    const q=Q[i];let body="";
+    if(q.t==="mc")body=`<div class="opts">${q.o.map((o,j)=>`<button class="opt" data-q="${i}" data-j="${j}">${String.fromCharCode(97+j)}) ${o}</button>`).join("")}</div>`;
+    if(q.t==="vf")body=q.i.map((it,j)=>`<div class="vf"><span>${it}</span><span class="vfb"><button class="opt sm" data-q="${i}" data-j="${j}" data-v="1">V</button><button class="opt sm" data-q="${i}" data-j="${j}" data-v="0">F</button></span></div>`).join("");
+    if(q.t==="cls")body=q.i.map((it,j)=>`<div class="vf"><span>${it}</span><select data-q="${i}" data-j="${j}" aria-label="Classificação"><option value="">escolha…</option>${q.o.map((o,m)=>`<option value="${m}">${o}</option>`).join("")}</select></div>`).join("")+`<button class="btn check" data-q="${i}">Conferir</button>`;
+    if(q.t==="open")body=`<textarea rows="3" placeholder="Escreva sua resposta aqui (ou no caderno)"></textarea><button class="btn reveal" data-q="${i}">Ver resposta</button>`;
+    return `<article class="q" id="q${i}"><h3>Questão ${i+1}</h3><p>${q.q}</p>${body}<div class="fb" hidden></div></article>`}).join("");
+  updScore();
+}
+function fb(i,html,good){const el=$("#q"+i+" .fb");el.hidden=false;el.className="fb "+(good===true?"good":good===false?"bad":"");el.innerHTML=html}
+function updScore(){const n=qset.length,done=Object.keys(score).length,c=Object.values(score).filter(Boolean).length;$("#ex-score").textContent=`${done} de ${n} respondidas · ${c} certas`}
+$("#ex-list").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;const i=+b.dataset.q,q=Q[i];
+  if(q.t==="mc"&&b.classList.contains("opt")){
+    if(i in score)return;const j=+b.dataset.j,good=j===q.a;score[i]=good;
+    b.parentNode.querySelectorAll(".opt").forEach((o,k)=>{o.disabled=true;if(k===q.a)o.classList.add("right");});if(!good)b.classList.add("wrong");
+    fb(i,(good?"<b>Isso!</b> ":"<b>Quase.</b> ")+q.e,good);updScore();
+  }
+  if(q.t==="vf"&&b.classList.contains("opt")){
+    const j=+b.dataset.j,row=b.parentNode;row.querySelectorAll("button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");
+    const art=$("#q"+i),sel=[...art.querySelectorAll(".vfb")].map(r=>r.querySelector(".sel"));
+    if(sel.every(Boolean)&&!(i in score)){
+      let all=true;sel.forEach((s,k)=>{const v=+s.dataset.v,good=v===q.a[k];all=all&&good;s.classList.add(good?"right":"wrong");s.parentNode.querySelectorAll("button").forEach(x=>x.disabled=true)});
+      score[i]=all;fb(i,(all?"<b>Tudo certo!</b> ":"<b>Confira:</b> ")+q.e,all);updScore();
+    }
+  }
+  if(b.classList.contains("check")){
+    if(i in score)return;const ss=[...$("#q"+i).querySelectorAll("select")];
+    if(ss.some(s=>s.value==="")){fb(i,"Escolha uma opção em cada item.",null);return}
+    let all=true;ss.forEach((s,k)=>{const good=+s.value===q.a[k];all=all&&good;s.classList.add(good?"right":"wrong");s.disabled=true});
+    b.disabled=true;score[i]=all;fb(i,(all?"<b>Tudo certo!</b> ":"<b>Resposta:</b> ")+q.e,all);updScore();
+  }
+  if(b.classList.contains("reveal")){
+    b.hidden=true;fb(i,`<b>Resposta:</b> ${q.e}<div class="self">Você acertou? <button class="btn sm" data-q="${i}" data-self="1">Acertei</button> <button class="btn sm ghost" data-q="${i}" data-self="0">Errei</button></div>`,null);
+  }
+  if(b.dataset.self!==undefined){score[i]=b.dataset.self==="1";b.parentNode.innerHTML=score[i]?"Boa! Marcado como certo.":"Ok, marcado como erro: faça um flashcard dessa.";updScore()}
+});
+document.querySelectorAll('#exercicios .chip').forEach(c=>c.addEventListener("click",()=>render(c.dataset.day)));
+/* ---------- Rotas por #hash ---------- */
+function route(){
+  const h=location.hash.slice(1);let m;
+  if((m=h.match(/^flashcards-dia-(\d)$/))){setDeck(m[1]);$("#flashcards").scrollIntoView()}
+  else if(h==="flashcards-erros"){setDeck("erros");$("#flashcards").scrollIntoView()}
+  else if((m=h.match(/^exercicios-dia-(\d)$/))){render(m[1]);$("#exercicios").scrollIntoView()}
+  else if(h==="simulado-interativo"){render("all");$("#exercicios").scrollIntoView()}
+  else{const el=document.getElementById(h);if(el&&el.tagName==="DETAILS")el.open=true}
+}
+setDeck("1");render("1");
+window.addEventListener("hashchange",route);route();
+}
+{
+const M={
+subs:[["Uma oração substantiva pode ser trocada por qual palavra?",["isso","ele","lá"],0,"\"Isso\": a oração inteira funciona como um substantivo."],
+["Quais são as conjunções integrantes?",["que e se","porque e embora","quando e enquanto"],0,"\"Que\" e \"se\" introduzem as orações substantivas."],
+["\"O problema é que choveu.\" A oração \"que choveu\" é:",["predicativa","completiva nominal","apositiva"],0,"Predicativa: vem depois do verbo de ligação \"é\"."]],
+subsx:[["\"Tenho medo de que chova.\" A oração destacada é:",["completiva nominal","predicativa","apositiva"],0,"Completa o nome \"medo\" (medo de quê?), com preposição."],
+["\"Desejo só isto: que você passe.\" A oração depois dos dois-pontos é:",["predicativa","apositiva","completiva nominal"],1,"Apositiva: explica \"isto\"."],
+["Qual frase está pontuada corretamente?",["Tenho certeza, de que vou passar.","Tenho certeza de que vou passar."],1,"Completiva nominal não se separa com vírgula."]],
+base:[["Quantas orações há em \"Quando cheguei, todos já tinham saído\"?",["1","2","3"],1,"2 orações: \"cheguei\" e \"tinham saído\" (locução verbal conta como um verbo só)."],
+["\"O estômago digere a comida.\" é um período:",["simples","composto"],0,"Simples: só 1 verbo (digere)."],
+["Em \"O aluno que estuda passa\", qual é a oração principal?",["que estuda","O aluno passa","O aluno que estuda"],1,"\"O aluno passa\" é a principal; \"que estuda\" depende dela."]]
+};
+document.querySelectorAll('.miniq').forEach(box=>{
+  const qs=M[box.dataset.k]||[];
+  box.innerHTML=qs.map((q,i)=>`<div class="mq" data-a="${q[2]}"><p><b>${i+1}.</b> ${q[0]}</p><div class="opts">${q[1].map((o,j)=>`<button class="opt" data-j="${j}">${o}</button>`).join('')}</div><div class="fb" hidden>${q[3]}</div></div>`).join('')+'<p class="mscore" aria-live="polite"></p>';
+  box.addEventListener('click',e=>{
+    const b=e.target.closest('.opt');if(!b)return;const mq=b.closest('.mq');if(mq.dataset.done)return;
+    const a=+mq.dataset.a,j=+b.dataset.j,good=a===j;mq.dataset.done=good?'1':'0';
+    mq.querySelectorAll('.opt').forEach((o,k)=>{o.disabled=true;if(k===a)o.classList.add('right')});if(!good)b.classList.add('wrong');
+    const f=mq.querySelector('.fb');f.hidden=false;f.classList.add(good?'good':'bad');f.innerHTML=(good?'<b>Isso!</b> ':'<b>Quase.</b> ')+f.innerHTML;
+    const all=[...box.querySelectorAll('.mq')],done=all.filter(x=>x.dataset.done);
+    if(done.length===all.length){const c=done.filter(x=>x.dataset.done==='1').length;box.querySelector('.mscore').textContent=c===all.length?`${c} de ${all.length}: você entendeu o vídeo!`:`${c} de ${all.length}: reveja a parte do vídeo e a explicação do dia sobre o que errou.`}
+  });
+});
+}
+
+{
+const m=document.getElementById('lockmodal'),x=document.getElementById('lm-x'),g=document.getElementById('lm-go');
+let last=null;
+const open=b=>{last=b;m.hidden=false;x.focus()};const close=()=>{m.hidden=true;if(last)last.focus()};
+document.addEventListener('click',e=>{const b=e.target.closest('.lockvid');if(b){e.preventDefault();open(b)}});
+x.addEventListener('click',close);g.addEventListener('click',()=>{m.hidden=true});
+m.addEventListener('click',e=>{if(e.target===m)close()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden)close()});
+}
+
+</script>
+</body>
+</html>
